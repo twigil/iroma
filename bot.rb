@@ -2,6 +2,7 @@ require 'dotenv'
 require 'telegram/bot'
 
 Dotenv.load(File.join(__dir__, '.env'))
+Process.daemon()
 
 messages = JSON.parse(File.read(File.join(__dir__, 'messages.json')))
 message_times = []
