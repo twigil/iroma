@@ -1,35 +1,7 @@
 require 'dotenv/load'
 require 'telegram/bot'
 
-MESSAGES = [
-  'ШАО-ФАО ФСЬ',
-  'ЧМОШКА',
-  'ВСМЫСИ',
-  'КАЛОМ БУР, А ТЕЛОМ БЕЛ',
-  'МИСТАР МЫШ ВЫ КУДА?',
-  'ТРУНЬ',
-  'НУ ТАКОЕ',
-  'НИЧЕГО НЕ ЗНАЮ ОБ ЭТОМ',
-  'ААААЭЭ',
-  'Я КОТИК',
-  'ЧМОШКА',
-  'ГЛАВНАЯ ПРОБЛЕМА В НАШЕЙ КОМАНДЕ — ЭТО ЛИЧНО ТЫ',
-  'ОПЯТЬ В РЕЙТИНГЕ СКАТИМСЯ',
-  'ПЕРЕСТАНЬ',
-  'АЛЛО',
-  'ОЧЕНЬ ПЛОХО',
-  'МНЕ ТЯЖЕЛО',
-  'А ПО СУТИ',
-  'Я РАБОТАЮ',
-  'Я БОЛЕЮ',
-  'ЧТО ТЫ ЗА ЧЕЛОВЕК ТАКОЙ',
-  'КАК СИДИМ, ТАК И СИДИМ',
-  'ЛЕСТЬ? КУДА ЛЕСТЬ?',
-  'А ЗРЯ',
-  'ТЕБЕ НЕЛЬЗЯ',
-  'Я ГНУСЬ'
-].freeze
-
+messages = JSON.parse(File.read('messages.json'))
 message_times = []
 Telegram::Bot::Client.run(ENV['API_TOKEN']) do |bot|
   if ARGV[0] && !ARGV[0].empty?
@@ -43,7 +15,7 @@ Telegram::Bot::Client.run(ENV['API_TOKEN']) do |bot|
           if time_difference < (20 * 60)
             if time_difference > 10
               sleep 2
-              bot.api.sendMessage chat_id: ENV['CHANNEL_ID'], text: MESSAGES.sample
+              bot.api.sendMessage chat_id: ENV['CHANNEL_ID'], text: messages.sample
             end
             message_times = []
           end
