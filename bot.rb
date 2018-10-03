@@ -1,7 +1,9 @@
-require 'dotenv/load'
+require 'dotenv'
 require 'telegram/bot'
 
-messages = JSON.parse(File.read('messages.json'))
+Dotenv.load(File.join(__dir__, '.env'))
+
+messages = JSON.parse(File.read(File.join(__dir__, 'messages.json')))
 message_times = []
 Telegram::Bot::Client.run(ENV['API_TOKEN']) do |bot|
   if ARGV[0] && !ARGV[0].empty?
