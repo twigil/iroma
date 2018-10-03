@@ -1,3 +1,4 @@
+require 'dotenv/load'
 require 'telegram/bot'
 
 MESSAGES = [
@@ -29,15 +30,10 @@ MESSAGES = [
   'Я ГНУСЬ'
 ].freeze
 
-TOKEN = 'NO_TOKEN'.freeze
-
-CHANNEL_ID = 'NO_ID'.freeze
-
 message_times = []
-
-Telegram::Bot::Client.run(TOKEN) do |bot|
+Telegram::Bot::Client.run(ENV['API_TOKEN']) do |bot|
   if ARGV[0] && !ARGV[0].empty?
-    bot.api.sendMessage chat_id: CHANNEL_ID, text: ARGV[0]
+    bot.api.sendMessage chat_id: ENV['CHANNEL_ID'], text: ARGV[0]
   else
     begin
       bot.listen do |message|
@@ -47,7 +43,7 @@ Telegram::Bot::Client.run(TOKEN) do |bot|
           if time_difference < (20 * 60)
             if time_difference > 10
               sleep 2
-              bot.api.sendMessage chat_id: CHANNEL_ID, text: MESSAGES.sample
+              bot.api.sendMessage chat_id: ENV['CHANNEL_ID'], text: MESSAGES.sample
             end
             message_times = []
           end
